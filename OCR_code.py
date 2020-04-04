@@ -14,6 +14,7 @@ alpha = 1.5 # Contrast control (1.0-3.0)
 beta = 0 # Brightness control (0-100)
 # By default OpenCV stores images in BGR format and since pytesseract assumes RGB format,
 # we need to convert from BGR to RGB format/mode:
+
 adjusted = cv2.convertScaleAbs(img_cv, alpha=alpha, beta=beta)
 gray = cv2.cvtColor(adjusted, cv2.COLOR_BGR2GRAY)
 print(pytesseract.image_to_string(gray))
