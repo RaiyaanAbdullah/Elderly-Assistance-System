@@ -11,14 +11,12 @@ import pytesseract
 img = cv2.imread('new.jpg')
 
 
-
+# resize image
 width = 1000
 scale = img.shape[1] / width
 height = int(img.shape[0] / scale) # keep original height
 dim = (width, height)
- 
-# resize image
-img = cv2.resize(img, dim)
+ img = cv2.resize(img, dim)
 
 
 
