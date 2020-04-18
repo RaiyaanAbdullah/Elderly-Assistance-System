@@ -1,7 +1,11 @@
 import React, { Fragment } from 'react';
 import ReactDom from "react-dom";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import MyResponsiveBar from './MedicineGraph';
 
+const Sty1={
+    height:800
+    }
 
 export default function Dashboard() {
     return (
@@ -25,6 +29,9 @@ export default function Dashboard() {
                         </Link>
                     </div>                    
                     
+                </div>
+                <div style={Sty1}>
+                    <MyResponsiveBar />
                 </div>
             </Fragment>
 
