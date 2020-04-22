@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { addMedicine} from '../../actions/medicine';
+import { addMedicine} from '../../../actions/medicine';
 
 export class Form extends Component {
 

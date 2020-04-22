@@ -1,22 +1,70 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import {getMedicineHistory} from '../../actions/medicineHistory';
+import {getMedicineHistory} from '../../../actions/medicineHistory';
+
+import { ResponsiveCalendar } from '@nivo/calendar';
+import medHistoryJson from "./data.js"
+
+
+const MyResponsiveCalendar = ({inputData}) => (
+    <ResponsiveCalendar
+        data= {inputData}
+
+        from="2015-03-01"
+        to="2016-07-12"
+        emptyColor="#eeeeee"
+        colors={[  '#f47560' , '#61cdbb']}
+        minValue="auto"
+        margin={{ top: 40, right: 40, bottom: 40, left: 40 }}
+        yearSpacing={40}
+        monthBorderColor="#ffffff"
+        dayBorderWidth={2}
+        dayBorderColor="#ffffff"
+        legends={[
+            {
+                anchor: 'top-right',
+                direction: 'row',
+                translateY: 36,
+                itemCount: 4,
+                itemWidth: 42,
+                itemHeight: 36,
+                itemsSpacing: 14,
+                itemDirection: 'right-to-left'
+            }
+        ]}
+    />
+
+)
 
 export class MedicineHistory extends Component {
     static propTypes = {
         medicineHistory: PropTypes.array.isRequired,
-        getMedicineHistory: PropTypes.func.isRequired
+        getMedicineHistory: PropTypes.func.isRequired,
     };
 
     componentDidMount() {
         this.props.getMedicineHistory();
+        
     }
 
+    
+
     render() {
+
+        //After 4 hours finally 
+        var results = this.props.medicineHistory.filter(medicine_history => medicine_history.name === "Napa");
+        console.log(results);
+
         return (
+            
             <Fragment>
                 <h2>Medicine History</h2>
+                
+
+                <div style={{height:600}}>
+                    <MyResponsiveCalendar inputData={medHistoryJson}  />
+                </div>
                 <table className="table table-striped">
                     <thead>
                         <tr>
