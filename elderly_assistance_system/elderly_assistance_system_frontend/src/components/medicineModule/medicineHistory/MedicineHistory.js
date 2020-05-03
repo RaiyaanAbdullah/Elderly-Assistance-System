@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import {getMedicineHistory} from '../../../actions/medicineHistory';
 
+
 import { ResponsiveCalendar } from '@nivo/calendar';
 import medHistoryJson from "./data.js"
 
@@ -11,8 +12,8 @@ const MyResponsiveCalendar = ({inputData}) => (
     <ResponsiveCalendar
         data= {inputData}
 
-        from="2015-03-01"
-        to="2016-07-12"
+        from="2020-01-01"
+        to="2020-12-31"
         emptyColor="#eeeeee"
         colors={[  '#f47560' , '#61cdbb']}
         minValue="auto"
@@ -37,13 +38,16 @@ const MyResponsiveCalendar = ({inputData}) => (
 
 )
 
+
 export class MedicineHistory extends Component {
     static propTypes = {
         medicineHistory: PropTypes.array.isRequired,
-        getMedicineHistory: PropTypes.func.isRequired,
+        getMedicineHistory: PropTypes.func.isRequired
     };
 
     componentDidMount() {
+
+        
         this.props.getMedicineHistory();
         
     }
@@ -52,15 +56,48 @@ export class MedicineHistory extends Component {
 
     render() {
 
-        //After 4 hours finally 
-        var results = this.props.medicineHistory.filter(medicine_history => medicine_history.name === "Napa");
-        console.log(results);
+ 
+
+        //We aim to show the consumption graph of each medicine for each different time. First we join the names and times of all medicines.
+        var name_time = this.props.medicineHistory.map( (medicine_history) => medicine_history.name +' ' + medicine_history.time  );
+        //We derive the unique set
+        var name_time_unique = name_time.filter((item, index) => name_time.indexOf(item) === index);
+
+        var all_results = this.props.medicineHistory.filter( medicine_history => medicine_history.name  );
+        
+        console.log(name_time);
+        console.log(name_time_unique);
+        console.log(all_results);
+
+        //need to clean this code
+        const yo=[]
+        
+        for (const [index, value] of name_time_unique.entries()) {
+            const yooo=[]
+            for (const [index2, value2] of all_results.entries()) {
+                const key1 = "day";
+                const key2 = "value";
+                const vale1 = value2.date;
+                const vale2 = value2.consumed ? 1: 0;
+                if (value === value2.name+' '+value2.time) {
+                        yooo.push({  [key1]: vale1 , [key2]: vale2  });
+                }
+            }
+            yo.push(
+                <div style={{height:600}}>
+                    <MyResponsiveCalendar inputData={yooo}  />
+                </div>
+            )
+        }
+
+        
 
         return (
             
             <Fragment>
                 <h2>Medicine History</h2>
                 
+                {yo}
 
                 <div style={{height:600}}>
                     <MyResponsiveCalendar inputData={medHistoryJson}  />
