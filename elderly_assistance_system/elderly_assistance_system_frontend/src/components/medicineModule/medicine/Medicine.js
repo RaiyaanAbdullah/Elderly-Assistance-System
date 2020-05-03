@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import {getMedicine, deleteMedicine} from '../../actions/medicine';
+import {getMedicine, deleteMedicine} from '../../../actions/medicine';
 
 export class Medicine extends Component {
     static propTypes = {

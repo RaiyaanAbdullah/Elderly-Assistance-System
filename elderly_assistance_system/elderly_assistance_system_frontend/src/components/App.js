@@ -6,11 +6,11 @@ import {Provider as AlertProvider } from 'react-alert';
 import AlertTemplate from 'react-alert-template-basic';
 
 import Header from "./layout/Header";
-import Dashboard from "./medicine/Dashboard";
+import Dashboard from "./medicineModule/Dashboard";
 import Alerts from "./layout/Alerts";
-import Form from './medicine/Form';
-import Medicine from './medicine/Medicine';
-import MedicineHistory from './medicine/MedicineHistory';
+import Form from './medicineModule/medicine/Form';
+import Medicine from './medicineModule/medicine/Medicine';
+import MedicineHistory from './medicineModule/medicineHistory/MedicineHistory';
 
 
 import { Provider } from "react-redux";
