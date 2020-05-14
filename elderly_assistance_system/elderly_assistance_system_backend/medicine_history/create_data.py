@@ -7,7 +7,7 @@ from datetime import datetime
 
 def create_data():
     required_medicine=[] #The medicine history data that will be sent to server
-    keys_to_remove = ["id","started"]
+    keys_to_remove = ["name","time","started"]
 
     fetch_url = 'http://127.0.0.1:8000/api/medicine/'
     destination_url = 'http://127.0.0.1:8000/api/medicine-history/'
@@ -31,6 +31,7 @@ def create_data():
     for medicine in received:
         for key in keys_to_remove:
             medicine.pop(key)
+        medicine['medicine_id'] = medicine.pop('id')
         medicine.update(new_keys)
         required_medicine.append(medicine)
         
