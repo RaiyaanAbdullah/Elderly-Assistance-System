@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import {getMedicine} from '../../../actions/medicine';
 import {getMedicineHistory} from '../../../actions/medicineHistory';
-
+import MyCalendar from './Calendar';
 
 
 
@@ -20,10 +20,15 @@ export class MedicineHistory extends Component {
         this.props.getMedicine();
         this.props.getMedicineHistory();
     }
+
+
+
     render() {
-        var medicine_list=this.props.medicine;
+        
 
         // This code matches the id in medicine with medicine_id in medicineHistory, and provides the name and time for that particular medicine to medicineHistory
+        var medicine_list=this.props.medicine;
+
         for ( let list_index in this.props.medicine){
             for (let history_index in this.props.medicineHistory){ 
                 if (this.props.medicine[list_index].id == this.props.medicineHistory[history_index].medicine_id) {
@@ -34,9 +39,26 @@ export class MedicineHistory extends Component {
             }
         }
 
+        //Data to pass into the calendar, "consumed" is our custom parameter. First the object is declared, then the medicine record data is pushed.
+        const medicine_records = {
+            events: [
+            ]
+        };
+
+        for (let item_index in this.props.medicineHistory){ 
+            medicine_records.events.push({
+                start: new Date(this.props.medicineHistory[item_index].date+'T'+this.props.medicineHistory[item_index].time),
+                end: new Date(this.props.medicineHistory[item_index].date+'T'+this.props.medicineHistory[item_index].time),
+                title: this.props.medicineHistory[item_index].name,
+                consumed: this.props.medicineHistory[item_index].consumed ? 1:0              
+            });
+        }
+
+
         return (
             
             <Fragment>
+                <MyCalendar MedicineRecords={medicine_records.events} />   
 
                 <h2>Medicine History</h2>
                 <table className="table table-striped">
@@ -81,6 +103,4 @@ const mapStateToProps = state => ({
     medicine: state.medicine.medicine
 })
 
-export default {
-    MedicineHistory: connect(mapStateToProps, { getMedicineHistory , getMedicine})(MedicineHistory)
-}
+export default  connect(mapStateToProps, { getMedicineHistory , getMedicine})(MedicineHistory);

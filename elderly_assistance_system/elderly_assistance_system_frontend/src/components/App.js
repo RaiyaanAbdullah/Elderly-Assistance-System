@@ -41,8 +41,8 @@ class App extends Component {
                     <Medicine/>
                   </Route>
                   <Route exact path="/medicine-history">
-                   
-                    <MedicineHistory.MedicineHistory/>
+
+                    <MedicineHistory/>
                   </Route>
                 </Switch>
               </div>
