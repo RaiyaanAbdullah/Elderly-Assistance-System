@@ -45,7 +45,7 @@ def validity(Time):
     time_now=dt.datetime.now().time()
     time_now = dt.datetime.combine(dt.date.today(), time_now)
     timedelta_obj = relativedelta(time_now, Time)
-    if timedelta_obj.hours==0 and -15<=timedelta_obj.minutes<=15:
+    if timedelta_obj.hours==0 and -35<=timedelta_obj.minutes<=35:
         return 1
     else:
         return 0
@@ -80,8 +80,8 @@ def process(img):
 
 
 
-def ocr(medicine_name,medicine_time): 
-    cap = cv2.VideoCapture(0)   
+def ocr(medicine_name,medicine_ID,medicine_time): 
+    cap = cv2.VideoCapture(0,cv2.CAP_DSHOW)
     while(True):
         finished=0
         # Capture frame-by-frame
@@ -110,25 +110,27 @@ def ocr(medicine_name,medicine_time):
                 if medicine_name in med:
                     print(medicine_name," found")
                     try:
-                        con_medicine=MedicineHistory.objects.get(name=medicine_name,time=medicine_time,date=dt.datetime.now().date())
+                        con_medicine=MedicineHistory.objects.get(medicine_id=int(medicine_ID), date=dt.datetime.now().date())
                         if con_medicine.consumed==True:
                             print("Already taken")
                         else:
-                            print(con_medicine.name,'is registererd as taken')
                             con_medicine.consumed=True
                             con_medicine.time_of_consumption=dt.datetime.now().time()
                             con_medicine.save()
                             finished=1 #this variable is for terminating program after getting one correct strip in front of camera
                     except:
-                        pass
+                        print(obj.id)
+                        
             
                 #print(med)
             else:
                 #print("Show any english text..")
                 pass
+                
         # Display the resulting frame
         cv2.imshow('frame',frame)
         if finished==1:
+            print("You have no more medicines. Thanks for taking your medicines")
             break
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
@@ -143,18 +145,19 @@ for obj in medicine_objects:
     #time_list.append(obj.time)
     if(validity(dt.datetime.combine(dt.date.today(), obj.time))):  #check the medicine is correct for taking or not
         try:
-            con_medicine=MedicineHistory.objects.get(name=obj.name,time=obj.time,date=dt.datetime.now().date())
+            con_medicine=MedicineHistory.objects.get(medicine_id=int(obj.id),date=dt.datetime.now().date())
             if con_medicine.consumed==True:
                 print("You have already taken your scheduled medicines.",obj.name)
             else:
                 print("Time for ",obj.name," ",obj.time)
-                ocr(obj.name,obj.time)
+                ocr(obj.name,obj.id,obj.time)
+
 
         except:
-            pass
+            print(obj.id)
     else:
         loopCount+=1
     #missing_medicine_counter(obj)
 if loopCount==len(medicine_objects):
-
+    print(loopCount)
     print("Wrong time for medication")
