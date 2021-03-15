@@ -16,7 +16,7 @@ from east_detector import text_boundary,imcrop  #this is for getting the text bo
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 import datetime as dt
-
+pytesseract.pytesseract.tesseract_cmd = 'C:\\Program Files\\Tesseract-OCR\\tesseract.exe'
 # datetime object containing current date and time
 
 #alpha and beta are image processing parameter
@@ -39,13 +39,13 @@ beta = 0 # Brightness control (0-100)
     else:
         return 0'''
 
-
+#cap = cv2.VideoCapture(0,cv2.CAP_DSHOW)
 #check a medicine is valid or not comparing with medication time and current time
 def validity(Time):
     time_now=dt.datetime.now().time()
     time_now = dt.datetime.combine(dt.date.today(), time_now)
     timedelta_obj = relativedelta(time_now, Time)
-    if timedelta_obj.hours==0 and -35<=timedelta_obj.minutes<=35:
+    if timedelta_obj.hours==0 and -45<=timedelta_obj.minutes<=45:
         return 1
     else:
         return 0
@@ -87,46 +87,51 @@ def ocr(medicine_name,medicine_ID,medicine_time):
         # Capture frame-by-frame
 
         ret, frame = cap.read()
+        print(ret)
         med=''
         # Our operations on the frame come here
-        adjusted = cv2.convertScaleAbs(frame, alpha=alpha, beta=beta)
-        bound_box=text_boundary(adjusted)
-        med+=pytesseract.image_to_string(adjusted)
-        for b in bound_box:
-            crop=imcrop(adjusted, b)
-            sharpened_image = unsharp_mask(crop)
-            pr=process(crop)
-            gray = cv2.cvtColor(sharpened_image, cv2.COLOR_BGR2GRAY)
-            ret,pr_b = cv2.threshold(pr,127,255,cv2.THRESH_BINARY)
-            ret,thresh4 = cv2.threshold(pr,180,255,cv2.THRESH_TOZERO)
-            ret,thresh3 = cv2.threshold(pr,180,255,cv2.THRESH_TRUNC)
-            med=pytesseract.image_to_string(thresh3) #text for processing 1
-            med+=pytesseract.image_to_string(gray)   #text for processing 2
-            med+=pytesseract.image_to_string(thresh4) #text for processing 3
-            med+=pytesseract.image_to_string(thresh3) #text for processing 4
+        try:
+            adjusted = cv2.convertScaleAbs(frame, alpha=alpha, beta=beta)
+            bound_box=text_boundary(adjusted)
+            print("Model Loaded")
+            med+=pytesseract.image_to_string(adjusted)
+            for b in bound_box:
+                crop=imcrop(adjusted, b)
+                sharpened_image = unsharp_mask(crop)
+                pr=process(crop)
+                gray = cv2.cvtColor(sharpened_image, cv2.COLOR_BGR2GRAY)
+                ret,pr_b = cv2.threshold(pr,127,255,cv2.THRESH_BINARY)
+                ret,thresh4 = cv2.threshold(pr,180,255,cv2.THRESH_TOZERO)
+                ret,thresh3 = cv2.threshold(pr,180,255,cv2.THRESH_TRUNC)
+                med=pytesseract.image_to_string(thresh3) #text for processing 1
+                med+=pytesseract.image_to_string(gray)   #text for processing 2
+                med+=pytesseract.image_to_string(thresh4) #text for processing 3
+                med+=pytesseract.image_to_string(thresh3) #text for processing 4
 
-            if (med):
-                # Fenat, Napa... are some test medicine
-                if medicine_name in med:
-                    print(medicine_name," found")
-                    try:
-                        con_medicine=MedicineHistory.objects.get(medicine_id=int(medicine_ID), date=dt.datetime.now().date())
-                        if con_medicine.consumed==True:
-                            print("Already taken")
-                        else:
-                            con_medicine.consumed=True
-                            con_medicine.time_of_consumption=dt.datetime.now().time()
-                            con_medicine.save()
-                            finished=1 #this variable is for terminating program after getting one correct strip in front of camera
-                    except:
-                        print(obj.id)
-                        
-            
-                #print(med)
-            else:
-                #print("Show any english text..")
-                pass
+                if (med):
+                    # Fenat, Napa... are some test medicine
+                    print(med)
+                    if medicine_name in med:
+                        print(medicine_name," found")
+                        try:
+                            con_medicine=MedicineHistory.objects.get(medicine_id=int(medicine_ID), date=dt.datetime.now().date())
+                            if con_medicine.consumed==True:
+                                print("Already taken")
+                            else:
+                                con_medicine.consumed=True
+                                con_medicine.time_of_consumption=dt.datetime.now().time()
+                                con_medicine.save()
+                                finished=1 #this variable is for terminating program after getting one correct strip in front of camera
+                        except:
+                            #print(obj.id)
+                            print("Medicine is not registered on medicine history page")
+                            
                 
+                    #print(med)
+                else:
+                    print("Show any english text..")
+        except:
+            print("Error happened in image processing")
         # Display the resulting frame
         cv2.imshow('frame',frame)
         if finished==1:
@@ -154,10 +159,11 @@ for obj in medicine_objects:
 
 
         except:
-            print(obj.id)
+            #print(obj.id)
+            pass
     else:
         loopCount+=1
     #missing_medicine_counter(obj)
 if loopCount==len(medicine_objects):
-    print(loopCount)
+    #print(loopCount)
     print("Wrong time for medication")
