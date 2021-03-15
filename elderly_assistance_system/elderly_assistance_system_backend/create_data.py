@@ -3,8 +3,11 @@ import time
 import requests
 from datetime import datetime
 import datetime as dt
-from models import MedicineHistory
+from medicine_history.models import MedicineHistory
 from medicine.models import Medicine
+from dateutil.relativedelta import relativedelta
+import runpy
+from OCR_code_video import ocr
 
 def validity(Time):
     time_now=datetime.now().time()
@@ -25,6 +28,7 @@ def call_ocr_code():
                 con_medicine=MedicineHistory.objects.get(medicine_id=int(obj.id),date=dt.datetime.now().date())
                 if con_medicine.consumed==True:
                     print("You have already taken your scheduled medicines.",obj.name)
+                    return 0
                 else:
                     print("Time for ",obj.name," ",obj.time)
                     ocr(obj.name,obj.id,obj.time)
@@ -39,14 +43,15 @@ def call_ocr_code():
     if loopCount==len(medicine_objects):
         #print(loopCount)
         print("Wrong time for medication")
+        return 0
 
 
 def create_data():
     required_medicine=[] #The medicine history data that will be sent to server
     keys_to_remove = ["name","time","started"]
 
-    fetch_url = 'http://127.0.0.1:8000/api/medicine/'
-    destination_url = 'http://127.0.0.1:8000/api/medicine-history/'
+    fetch_url = 'http://192.168.0.6:8000/api/medicine/'
+    destination_url = 'http://192.168.0.6:8000/api/medicine-history/'
     
     '''
     Example of data to be sent
@@ -77,8 +82,10 @@ def create_data():
         sent_data = requests.post(destination_url, data = medicine)
         print(sent_data)
         
-schedule.every(10).seconds.do(create_data)
+schedule.every(5).minutes.do(create_data)
 
+#create_data()
 while 1:
     schedule.run_pending()
     time.sleep(1)
+    call_ocr_code()

@@ -93,7 +93,7 @@ def ocr(medicine_name,medicine_ID,medicine_time):
         try:
             adjusted = cv2.convertScaleAbs(frame, alpha=alpha, beta=beta)
             bound_box=text_boundary(adjusted)
-            print("Model Loaded")
+            #print("Model Loaded")
             med+=pytesseract.image_to_string(adjusted)
             for b in bound_box:
                 crop=imcrop(adjusted, b)
@@ -110,7 +110,7 @@ def ocr(medicine_name,medicine_ID,medicine_time):
 
                 if (med):
                     # Fenat, Napa... are some test medicine
-                    print(med)
+                    #print(med)
                     if medicine_name in med:
                         print(medicine_name," found")
                         try:
@@ -129,7 +129,7 @@ def ocr(medicine_name,medicine_ID,medicine_time):
                 
                     #print(med)
                 else:
-                    print("Show any english text..")
+                    print("Show Madicine..")
         except:
             print("Error happened in image processing")
         # Display the resulting frame
@@ -143,8 +143,7 @@ def ocr(medicine_name,medicine_ID,medicine_time):
 # When everything done, release the capture
     cap.release()
     cv2.destroyAllWindows()
-
-medicine_objects=Medicine.objects.all() #got todays routine medicine list
+'''medicine_objects=Medicine.objects.all() #got todays routine medicine list
 loopCount=0
 for obj in medicine_objects:
     #time_list.append(obj.time)
@@ -166,4 +165,4 @@ for obj in medicine_objects:
     #missing_medicine_counter(obj)
 if loopCount==len(medicine_objects):
     #print(loopCount)
-    print("Wrong time for medication")
+    print("Wrong time for medication")'''
