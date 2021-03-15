@@ -8,6 +8,7 @@ from medicine.models import Medicine
 from dateutil.relativedelta import relativedelta
 import runpy
 from OCR_code_video import ocr
+import serial
 
 def validity(Time):
     time_now=datetime.now().time()
@@ -17,6 +18,14 @@ def validity(Time):
         return 1
     else:
         return 0
+
+def solenoid_activate():
+    for i in range(10):
+    with serial.Serial('COM3', 9800, timeout=1) as ser:
+        time.sleep(3)
+        ser.write(b'H')   # send the pyte string 'H'
+        time.sleep(4)   # wait 0.5 seconds
+        ser.write(b'L')   # send the byte string 'L'
 
 def call_ocr_code():
     medicine_objects=Medicine.objects.all() #got todays routine medicine list
@@ -51,7 +60,7 @@ def create_data():
     keys_to_remove = ["name","time","started"]
 
     fetch_url = 'http://127.0.0.1:8000/api/medicine/'
-    destination_url = http://127.0.0.1:8000/api/medicine-history/'
+    destination_url = 'http://127.0.0.1:8000/api/medicine-history/'
     
     '''
     Example of data to be sent
