@@ -50,8 +50,8 @@ def create_data():
     required_medicine=[] #The medicine history data that will be sent to server
     keys_to_remove = ["name","time","started"]
 
-    fetch_url = 'http://192.168.0.6:8000/api/medicine/'
-    destination_url = 'http://192.168.0.6:8000/api/medicine-history/'
+    fetch_url = 'http://127.0.0.1:8000/api/medicine/'
+    destination_url = http://127.0.0.1:8000/api/medicine-history/'
     
     '''
     Example of data to be sent
