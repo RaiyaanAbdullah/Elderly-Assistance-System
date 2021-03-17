@@ -21,11 +21,11 @@ def validity(Time):
 
 def solenoid_activate():
     for i in range(10):
-    with serial.Serial('COM3', 9800, timeout=1) as ser:
-        time.sleep(3)
-        ser.write(b'H')   # send the pyte string 'H'
-        time.sleep(4)   # wait 0.5 seconds
-        ser.write(b'L')   # send the byte string 'L'
+        with serial.Serial('COM4', 9800, timeout=1) as ser:
+            time.sleep(2)
+            ser.write(b'H')   # send the pyte string 'H'
+            time.sleep(2)   # wait 0.5 seconds
+            ser.write(b'L')   # send the byte string 'L'
 
 def call_ocr_code():
     medicine_objects=Medicine.objects.all() #got todays routine medicine list
@@ -39,6 +39,7 @@ def call_ocr_code():
                     print("You have already taken your scheduled medicines.",obj.name)
                     return 0
                 else:
+                    solenoid_activate()
                     print("Time for ",obj.name," ",obj.time)
                     ocr(obj.name,obj.id,obj.time)
 
@@ -93,7 +94,7 @@ def create_data():
         
 schedule.every(5).minutes.do(create_data)
 
-#create_data()
+create_data()
 while 1:
     schedule.run_pending()
     time.sleep(1)

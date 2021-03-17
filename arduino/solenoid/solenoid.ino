@@ -21,14 +21,21 @@
   http://www.arduino.cc/en/Tutorial/PhysicalPixel
 */
 
-const int ledPin = 24; // the pin that the LED is attached to
+#include <Servo.h>
+
+Servo myservo;
+
+int pos = 0; 
+
+
 int incomingByte;      // a variable to read incoming serial data into
+
 
 void setup() {
   // initialize serial communication:
   Serial.begin(9600);
-  // initialize the LED pin as an output:
-  pinMode(ledPin, OUTPUT);
+
+  myservo.attach(9);
 }
 
 void loop() {
@@ -38,15 +45,29 @@ void loop() {
     incomingByte = Serial.read();
     // if it's a capital H (ASCII 72), turn on the LED:
     if (incomingByte == 'H') {
-      digitalWrite(ledPin, HIGH);
+      servoForward();
     }
     // if it's an L (ASCII 76) turn off the LED:
     if (incomingByte == 'L') {
-      digitalWrite(ledPin, LOW);
+      servoBackward();
     }
   }
 }
 
+void servoForward() {
+  for (pos = 0; pos <= 180; pos += 1) { // goes from 0 degrees to 180 degrees
+    // in steps of 1 degree
+    myservo.write(pos);              // tell servo to go to position in variable 'pos'
+    delay(15);                       // waits 15ms for the servo to reach the position
+  }
+}
+
+void servoBackward() {
+  for (pos = 180; pos >= 0; pos -= 1) { // goes from 180 degrees to 0 degrees
+    myservo.write(pos);              // tell servo to go to position in variable 'pos'
+    delay(15);                       // waits 15ms for the servo to reach the position
+  }
+}
 /* Processing code for this example
 
   // Mouse over serial
