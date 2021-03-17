@@ -80,8 +80,9 @@ def process(img):
 
 
 
-def ocr(medicine_name,medicine_ID,medicine_time): 
-    cap = cv2.VideoCapture(0,cv2.CAP_DSHOW)
+def ocr(medicine_name,medicine_ID,medicine_time):
+    url = "http://192.168.0.5:4747/video"
+    cap = cv2.VideoCapture(url,cv2.CAP_DSHOW)
     while(True):
         finished=0
         # Capture frame-by-frame
