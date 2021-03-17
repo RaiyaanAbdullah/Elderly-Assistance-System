@@ -23,7 +23,9 @@
 
 #include <Servo.h>
 
-Servo myservo;
+Servo myservo1;  // create servo object to control a servo
+Servo myservo2;  // create servo object to control a servo
+Servo myservo3;  // create servo object to control a servo
 
 int pos = 0; 
 
@@ -35,7 +37,9 @@ void setup() {
   // initialize serial communication:
   Serial.begin(9600);
 
-  myservo.attach(9);
+  myservo1.attach(8);  // attaches the servo on pin 9 to the servo object
+  myservo2.attach(9);  // attaches the servo on pin 9 to the servo object
+  myservo3.attach(10);  // attaches the servo on pin 9 to the servo object
 }
 
 void loop() {
@@ -44,27 +48,30 @@ void loop() {
     // read the oldest byte in the serial buffer:
     incomingByte = Serial.read();
     // if it's a capital H (ASCII 72), turn on the LED:
-    if (incomingByte == 'H') {
-      servoForward();
+    if (incomingByte == 'F') {
+      servoForward(myservo1);
     }
     // if it's an L (ASCII 76) turn off the LED:
-    if (incomingByte == 'L') {
-      servoBackward();
+    if (incomingByte == 'E') {
+      servoBackward(myservo2);
+    }
+     if (incomingByte == 'P') {
+      servoBackward(myservo3);
     }
   }
 }
 
-void servoForward() {
+void servoForward(Servo servo) {
   for (pos = 0; pos <= 180; pos += 1) { // goes from 0 degrees to 180 degrees
     // in steps of 1 degree
-    myservo.write(pos);              // tell servo to go to position in variable 'pos'
+    servo.write(pos);              // tell servo to go to position in variable 'pos'
     delay(15);                       // waits 15ms for the servo to reach the position
   }
 }
 
-void servoBackward() {
+void servoBackward(Servo servo) {
   for (pos = 180; pos >= 0; pos -= 1) { // goes from 180 degrees to 0 degrees
-    myservo.write(pos);              // tell servo to go to position in variable 'pos'
+    servo.write(pos);              // tell servo to go to position in variable 'pos'
     delay(15);                       // waits 15ms for the servo to reach the position
   }
 }
