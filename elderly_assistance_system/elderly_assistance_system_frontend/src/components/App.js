@@ -10,6 +10,7 @@ import Dashboard from "./medicineModule/Dashboard";
 import Alerts from "./layout/Alerts";
 import Form from './medicineModule/medicine/Form';
 import Medicine from './medicineModule/medicine/Medicine';
+import FormUpdate from './medicineModule/medicine/FormUpdate';
 import MedicineHistory from './medicineModule/medicineHistory/MedicineHistory';
 
 
@@ -39,6 +40,7 @@ class App extends Component {
                   <Route exact path="/manage-medicine">
                     <Form/>
                     <Medicine/>
+                    <FormUpdate/>
                   </Route>
                   <Route exact path="/medicine-history">
 

@@ -35,7 +35,7 @@ export class Medicine extends Component {
                                 <td>{medicine.name}</td>
                                 <td>{medicine.time}</td>
                                 <td>{medicine.started}</td>
-                                <td><button onClick={this.props.deleteMedicine.bind(this, medicine.id)} className="btn btn-danger">Delete</button></td>
+                                <td><button onClick={this.props.deleteMedicine.bind(this, medicine.id)} className="btn red-background white">Delete</button></td>
                             </tr>
                         ))}
 

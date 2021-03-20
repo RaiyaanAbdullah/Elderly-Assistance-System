@@ -1,26 +1,27 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { addMedicine} from '../../../actions/medicine';
+import { updateMedicine} from '../../../actions/medicine';
 
-export class Form extends Component {
+export class FormUpdate extends Component {
 
     state = {
+        id:'',
         name: '',
         time: '',
         start: ''
     }
 
     static propTypes = {
-        addMedicine: PropTypes.func.isRequired
+        updateMedicine: PropTypes.func.isRequired
     }
     onChange = e => this.setState({ [e.target.name] : e.target.value});
 
     onSubmit = e => {
         e.preventDefault();
-        const {name, time, started} = this.state;
-        const medicine = {name, time, started};
-        this.props.addMedicine(medicine);
+        const {id, name, time, started} = this.state;
+        const medicine = {id,name, time, started};
+        this.props.updateMedicine(medicine);
         this.setState({
             name: "",
             time: ""
@@ -28,12 +29,16 @@ export class Form extends Component {
         })
     }
     render() {
-        const {name, time, started} = this.state;
+        const {id,name, time, started} = this.state;
         return (
 
             <div className="card card-body mb-5">
-                <h2>Add Medicine</h2>
+                <h2>Update Medicine</h2>
                 <form onSubmit={this.onSubmit}>
+                <div className="form-group">
+                    <label>ID</label>
+                    <input className="form-control" type="number" name="id" onChange={this.onChange} value={id}/>
+                </div>
                 <div className="form-group">
                     <label>Name</label>
                     <input className="form-control" type="text" name="name" onChange={this.onChange} value={name}/>
@@ -47,7 +52,7 @@ export class Form extends Component {
                     <input className="form-control" type="datetime-local" name="started" onChange={this.onChange} value={started}/>
                 </div>
                 <div className="form-group">
-                    <button type="submit" className="btn green-background white">Add</button>
+                    <button type="submit" className="btn yellow-background">Update</button>
                 </div>
                 </form>
             </div>
@@ -56,4 +61,4 @@ export class Form extends Component {
     }
 }
 
-export default connect(null, {addMedicine})(Form);
+export default connect(null, {updateMedicine})(FormUpdate);

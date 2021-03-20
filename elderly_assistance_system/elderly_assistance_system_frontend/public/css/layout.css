@@ -129,3 +129,18 @@ a:hover
     height: 300px;
 }
 
+@media(max-width:991px)
+{
+    .homepage-tile
+    {
+        height: 180px;
+        margin-bottom: 30px;
+    }
+}
+.homepage-title-icon
+{
+    height:60px;
+    margin-bottom: 20px;
+}
+
+

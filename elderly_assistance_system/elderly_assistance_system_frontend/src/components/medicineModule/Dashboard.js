@@ -12,18 +12,26 @@ export default function Dashboard() {
             <Fragment>
                 <div className="row">
                     
-                    <div className="col-6">
+                    <div className="col-lg-6">
                         <Link to="/manage-medicine">
-                            <div className="homepage-tile vertically-middle black-opaque-border round-border-all">
-                                <h2 className="dark-grey text-center w-100">Manage Medicine</h2>
+                            <div className="homepage-tile vertically-middle text-center horizontal-middle-flex round-border-all red-background">
+                                <div>
+                                    <img className="homepage-title-icon" src="images/manage.svg"></img>
+                                    <h2 className="white text-center w-100">Manage Medicine</h2>
+                                </div>
                             </div>
                         </Link>
                     </div>
                     
-                    <div className="col-6">
+                    <div className="col-lg-6">
                         <Link to="/medicine-history">
-                            <div className="homepage-tile vertically-middle black-opaque-border round-border-all">
-                                <h2 className="dark-grey text-center w-100">View Medicine Records</h2>
+                            <div className="homepage-tile vertically-middle text-center horizontal-middle-flex round-border-all red-background">
+                                <div>
+                                    <img className="homepage-title-icon" src="images/history.svg"></img>
+                                    <h2 className="white text-center w-100">View Medicine Records</h2>
+                                </div>
+                                
+                                
                             </div>
                         </Link>
                     </div>                    
