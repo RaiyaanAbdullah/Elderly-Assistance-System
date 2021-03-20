@@ -100,7 +100,7 @@ def create_data():
         
 schedule.every(5).minutes.do(create_data)
 
-#create_data()
+create_data()
 while 1:
     schedule.run_pending()
     time.sleep(1)
