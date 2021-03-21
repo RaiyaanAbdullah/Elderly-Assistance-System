@@ -1,4 +1,4 @@
-import { GET_MEDICINE, DELETE_MEDICINE, ADD_MEDICINE } from '../actions/types.js';
+import { GET_MEDICINE, DELETE_MEDICINE, ADD_MEDICINE, UPDATE_MEDICINE } from '../actions/types.js';
 
 const initialState = {
     medicine: []
@@ -22,6 +22,11 @@ export default function(state=initialState, action) {
             return {
                 ...state,
                 medicine: [ ...state.medicine,  action.payload]
+            };
+        case UPDATE_MEDICINE:
+            return {
+                ...state,
+                medicine: [ ...state.medicine.filter(medicine => medicine.id !== action.payload.id ) ,  action.payload]
             };
         default:
             return state;

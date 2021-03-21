@@ -1,46 +1,46 @@
 .green, .green-hover:hover
 {
-    color:#00A86B;
+    color:#3cbbb1;
 }
 
 .green-background, .green-background-hover:hover
 {
-    background-color:#00A86B;
+    background-color:#3cbbb1;
 }
 
 .green-border,.green-border-hover:hover
 {
-    border: 2px solid #00A86B;
+    border: 2px solid #3cbbb1;
 }
 
 .red, .red-hover:hover
 {
-    color:#d03516;
+    color:#f45866;
 }
 
 .red-background, .red-background-hover:hover
 {
-    background-color:#d03516;
+    background-color:#f45866;
 }
 
 .red-border,.red-border-hover:hover
 {
-    border: 2px solid #d03516;
+    border: 2px solid #f45866;
 }
 
 .yellow, .yellow-hover:hover
 {
-    color:#e1ad01;
+    color:#faf3dd;
 }
 
 .yellow-background, .yellow-background-hover:hover
 {
-    background-color:#e1ad01;
+    background-color:#faf3dd;
 }
 
 .yellow-border,.yellow-border-hover:hover
 {
-    border: 2px solid #e1ad01;
+    border: 2px solid #faf3dd;
 }
 
 

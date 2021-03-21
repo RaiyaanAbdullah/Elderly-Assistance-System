@@ -2,7 +2,7 @@ import axios from 'axios'; //http client
 import { createMessage} from './messages';
 import {API_URL} from "./apiAddress";
 
-import {GET_MEDICINE, DELETE_MEDICINE, ADD_MEDICINE} from './types';
+import {GET_MEDICINE, DELETE_MEDICINE, ADD_MEDICINE, UPDATE_MEDICINE} from './types';
 
 // GET MEDICINE
 export const getMedicine = () => dispatch => {
@@ -34,6 +34,18 @@ export const addMedicine = (medicine) => dispatch => {
             dispatch(createMessage({ addMedicine: "Medicine Added"}));
             dispatch({
                type: ADD_MEDICINE,
+               payload: res.data
+            });
+        }).catch(err => console.log(err));
+}
+
+// UPDATE MEDICINE
+export const updateMedicine = (medicine) => dispatch => {
+    axios.put(API_URL+`${medicine.id}/`, medicine)
+        .then ( res => {
+            dispatch(createMessage({ updateMedicine: "Medicine Updated"}));
+            dispatch({
+               type: UPDATE_MEDICINE,
                payload: res.data
             });
         }).catch(err => console.log(err));
