@@ -16,6 +16,7 @@ export class Alerts extends Component {
     if (message !== prevProps.message) {
       if (message.deleteMedicine) alert.success(message.deleteMedicine);
       if (message.addMedicine) alert.success(message.addMedicine);
+      if (message.updateMedicine) alert.success(message.updateMedicine);
       if (message.passwordNotMatch) alert.error(message.passwordNotMatch);
     }
   }

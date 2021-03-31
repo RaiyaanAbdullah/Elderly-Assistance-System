@@ -9,7 +9,8 @@ export class FormUpdate extends Component {
         id:'',
         name: '',
         time: '',
-        start: ''
+        start: '',
+        drawer: ''
     }
 
     static propTypes = {
@@ -19,17 +20,18 @@ export class FormUpdate extends Component {
 
     onSubmit = e => {
         e.preventDefault();
-        const {id, name, time, started} = this.state;
-        const medicine = {id,name, time, started};
+        const {id, name, time, started, drawer} = this.state;
+        const medicine = {id,name, time, started, drawer};
         this.props.updateMedicine(medicine);
         this.setState({
             name: "",
-            time: ""
+            time: "",
             //started not added because the next medicine might be started at the same time
+            drawer: ""
         })
     }
     render() {
-        const {id,name, time, started} = this.state;
+        const {id,name, time, started, drawer} = this.state;
         return (
 
             <div className="card card-body mb-5">
@@ -50,6 +52,10 @@ export class FormUpdate extends Component {
                 <div className="form-group">
                     <label>Started</label>
                     <input className="form-control" type="datetime-local" name="started" onChange={this.onChange} value={started}/>
+                </div>
+                <div className="form-group">
+                    <label>Drawer no.</label>
+                    <input className="form-control" type="number" name="drawer" onChange={this.onChange} value={drawer}/>
                 </div>
                 <div className="form-group">
                     <button type="submit" className="btn yellow-background">Update</button>

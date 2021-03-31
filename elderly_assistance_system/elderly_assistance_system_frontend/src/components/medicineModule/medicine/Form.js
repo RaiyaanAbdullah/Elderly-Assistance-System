@@ -8,7 +8,8 @@ export class Form extends Component {
     state = {
         name: '',
         time: '',
-        start: ''
+        start: '',
+        drawer: ''
     }
 
     static propTypes = {
@@ -18,17 +19,18 @@ export class Form extends Component {
 
     onSubmit = e => {
         e.preventDefault();
-        const {name, time, started} = this.state;
-        const medicine = {name, time, started};
+        const {name, time, started, drawer} = this.state;
+        const medicine = {name, time, started, drawer};
         this.props.addMedicine(medicine);
         this.setState({
             name: "",
-            time: ""
+            time: "",
             //started not added because the next medicine might be started at the same time
+            drawer: ""
         })
     }
     render() {
-        const {name, time, started} = this.state;
+        const {name, time, started, drawer} = this.state;
         return (
 
             <div className="card card-body mb-5">
@@ -45,6 +47,10 @@ export class Form extends Component {
                 <div className="form-group">
                     <label>Started</label>
                     <input className="form-control" type="datetime-local" name="started" onChange={this.onChange} value={started}/>
+                </div>
+                <div className="form-group">
+                    <label>Drawer no.</label>
+                    <input className="form-control" type="number" name="drawer" onChange={this.onChange} value={drawer}/>
                 </div>
                 <div className="form-group">
                     <button type="submit" className="btn green-background white">Add</button>

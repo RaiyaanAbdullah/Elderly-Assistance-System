@@ -17,11 +17,11 @@ thresh=3
 def delete_random(name):
     random_position=rnd.randint(0, len(name)-1)
     modified=name[0:random_position]+name[random_position+1:]
-    return modified.upper()
+    return modified.lower()
 
 def delete(name,position):
     modified=name[0:position]+name[position+1:]
-    return modified.upper()
+    return modified.lower()
 
 def optimized_delete(name):
     modified=[]
@@ -30,7 +30,7 @@ def optimized_delete(name):
         #print(delete_char)
         for i in range(1,delete_char):
             random_position=rnd.randint(0, len(name)-i)
-            modified.append((name[0:random_position]+name[random_position+i:]).upper())
+            modified.append((name[0:random_position]+name[random_position+i:]).lower())
     return modified
         
 
@@ -40,9 +40,9 @@ def Replace(name,position):
     replace_with=rnd.choice(string.ascii_letters)
     if inter_char != replace_with:
         if position==0:
-            modified=(str(replace_with)+name[position+1:len(name)]).upper()
+            modified=(str(replace_with)+name[position+1:len(name)]).lower()
         else:
-            modified=(name[0:position-1]+str(replace_with)+name[position:len(name)]).upper()
+            modified=(name[0:position-1]+str(replace_with)+name[position:len(name)]).lower()
         #print("modified on ", position, modified)
         return modified
     else:
@@ -52,7 +52,7 @@ def Insert(name,position):
     inter_char=name[position]
     insert_with=rnd.choice(string.ascii_letters)
     if inter_char != insert_with:
-        modified=(name[0:position]+str(insert_with)+name[position:]).upper()
+        modified=(name[0:position]+str(insert_with)+name[position:]).lower()
         return modified
     else:
         return Insert(name,position)
@@ -76,9 +76,14 @@ def edit(input_name, number_of_word):
 bit less than 100. 10 multiple is for we have 10 edit operation on given string
 6 replace, 1 insert, 1 random delete and 2 positional delete . Increase 100 to 150 or
 bigger to get more generated word'''
-generated=edit(given_name,100) #use 10 multiple
-generated=list(flatten(generated))
-gen_set=set(generated)
-generated=list(gen_set)
-print(len(generated),"words generated for ",given_name,":\n",generated)
+def train_data_generate(given_name):
+    generated=edit(given_name,100) #use 10 multiple
+    generated=list(flatten(generated))
+    gen_set=set(generated)
+    generated=list(gen_set)
+    #print(len(generated),"words generated for ",given_name,":\n",generated)
+    return generated
+
+
+#train_data_generate((given_name))
 #print(rnd.choice(string.ascii_letters))
