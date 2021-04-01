@@ -18,33 +18,35 @@ export class Medicine extends Component {
         return (
             <Fragment>
                 <h2>List of Medicine</h2>
-                <table className="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Time</th>
-                            <th>Started</th>
-                            <th>Drawer no.</th>
-                            <th/>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        { this.props.medicine.map( (medicine, index) => (
-                            <tr key={index}>
-                                <td>{medicine.id}</td>
-                                <td>{medicine.name}</td>
-                                <td>{medicine.time}</td>
-                                <td>{medicine.started}</td>
-                                <td>{medicine.drawer}</td>
-                                <td><button onClick={this.props.deleteMedicine.bind(this, medicine.id)} className="btn red-background white">Delete</button></td>
+                <div class="table-responsive">
+                    <table className="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Time</th>
+                                <th>Started</th>
+                                <th>Drawer no.</th>
+                                <th/>
                             </tr>
-                        ))}
+                        </thead>
+                        <tbody>
+                            { this.props.medicine.map( (medicine, index) => (
+                                <tr key={index}>
+                                    <td>{medicine.id}</td>
+                                    <td>{medicine.name}</td>
+                                    <td>{medicine.time}</td>
+                                    <td>{medicine.started}</td>
+                                    <td>{medicine.drawer}</td>
+                                    <td><button onClick={this.props.deleteMedicine.bind(this, medicine.id)} className="btn red-background white">Delete</button></td>
+                                </tr>
+                            ))}
 
 
-                        
-                    </tbody>
-                </table>
+                            
+                        </tbody>
+                    </table>
+                </div>
             </Fragment>
         )
     }
