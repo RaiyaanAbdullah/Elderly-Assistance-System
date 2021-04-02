@@ -18,7 +18,7 @@ export class Medicine extends Component {
         return (
             <Fragment>
                 <h2>List of Medicine</h2>
-                <div class="table-responsive">
+                <div className="table-responsive">
                     <table className="table table-striped">
                         <thead>
                             <tr>
