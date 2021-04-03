@@ -60,13 +60,13 @@ export class FormUpdate extends Component {
         const {id, name, time, started, drawer} = this.state;
         const medicine = {id,name, time, started, drawer};
         this.props.updateMedicine(medicine);
-        console.log(id)
+
 
     }
     render() {
         
         const {id,name, time, started, drawer} = this.state;
-        console.log("new state started "+id)
+
         return (
             
             <div className="card card-body mb-5">
@@ -108,23 +108,7 @@ export class FormUpdate extends Component {
                         <button type="submit" className="btn yellow-background">Update</button>
                     </div>
                 </form>
-                {/*
-                <tbody>
-                    { this.props.medicine.map( (medicine, index) => (
-                        <tr key={index}>
-                            <td>{medicine.id}</td>
-                            <td>{medicine.name}</td>
-                            <td>{medicine.time}</td>
-                            <td>{medicine.started}</td>
-                            <td>{medicine.drawer}</td>
 
-                        </tr>
-                    ))}
-
-
-                            
-                </tbody>
-                    */}
             </div>
 
 
