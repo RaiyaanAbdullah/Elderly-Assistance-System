@@ -35,6 +35,7 @@ from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint, TensorBoard
 from tensorflow.keras.metrics import categorical_accuracy
 
+#to view tensorboard data run in the folder : tensorboard --logdir logs/fit
 
 log_dir = "logs/fit/" + datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
 

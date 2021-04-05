@@ -19,6 +19,7 @@ def validity(Time):
     else:
         return 0
 
+#need to modify these code so that for every medicine name the serial write is that drawer number
 def solenoid_activate(medicine):
     with serial.Serial('COM4', 9800, timeout=1) as ser:
         time.sleep(2)
