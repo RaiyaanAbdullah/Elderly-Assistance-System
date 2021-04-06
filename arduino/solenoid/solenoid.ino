@@ -48,14 +48,14 @@ void loop() {
     // read the oldest byte in the serial buffer:
     incomingByte = Serial.read();
     // if it's a capital H (ASCII 72), turn on the LED:
-    if (incomingByte == 'F') {
+    if (incomingByte == '0') {
       servoForward(myservo1);
     }
     // if it's an L (ASCII 76) turn off the LED:
-    if (incomingByte == 'E') {
+    if (incomingByte == '1') {
       servoBackward(myservo2);
     }
-     if (incomingByte == 'P') {
+     if (incomingByte == '2') {
       servoBackward(myservo3);
     }
   }

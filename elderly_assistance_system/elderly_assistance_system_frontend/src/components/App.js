@@ -8,9 +8,7 @@ import AlertTemplate from 'react-alert-template-basic';
 import Header from "./layout/Header";
 import Dashboard from "./medicineModule/Dashboard";
 import Alerts from "./layout/Alerts";
-import Form from './medicineModule/medicine/Form';
-import Medicine from './medicineModule/medicine/Medicine';
-import FormUpdate from './medicineModule/medicine/FormUpdate';
+import ManageMedicine from './medicineModule/medicine/ManageMedicine';
 import MedicineHistory from './medicineModule/medicineHistory/MedicineHistory';
 
 
@@ -38,9 +36,7 @@ class App extends Component {
                   <Route exact path="/" component={Dashboard}/>
                   
                   <Route exact path="/manage-medicine">
-                    <Form/>
-                    <Medicine/>
-                    <FormUpdate/>
+                    <ManageMedicine/>
                   </Route>
                   <Route exact path="/medicine-history">
 

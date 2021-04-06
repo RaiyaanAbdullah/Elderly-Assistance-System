@@ -24,7 +24,7 @@ import pandas as pd
 import csv
 import numpy as np
 from sklearn.utils import shuffle
-
+import datetime
 
 
 #import Keras library
@@ -32,9 +32,14 @@ from tensorflow.keras.models import Sequential, Model
 from tensorflow.keras.layers import Dense, Activation, Dropout
 from tensorflow.keras.layers import LSTM, Input, Bidirectional
 from tensorflow.keras.optimizers import Adam
-from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
+from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint, TensorBoard
 from tensorflow.keras.metrics import categorical_accuracy
 
+#to view tensorboard data run in the folder : tensorboard --logdir logs/fit
+
+log_dir = "logs/fit/" + datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
+
+tensorboard_callback = TensorBoard(log_dir=log_dir, histogram_freq=1)
 
 
 
@@ -109,7 +114,7 @@ batch_size = 128 # minibatch size
 num_epochs = 30 # number of epochs
 
 #callbacks=[EarlyStopping(patience=4, monitor='val_loss'),
-callbacks=[ModelCheckpoint(filepath="checkpoints/medicine_name_predict.{epoch:02d}-{val_loss:.2f}.hdf5", monitor='val_loss', verbose=1, mode='auto', period=2)]
+callbacks=[ModelCheckpoint(filepath="checkpoints/medicine_name_predict.{epoch:02d}-{val_loss:.2f}.hdf5", monitor='val_loss', verbose=1, mode='auto', period=2),tensorboard_callback]
 #fit the model
 history = model.fit(X, Y,
                  batch_size=batch_size,
