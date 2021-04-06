@@ -51,7 +51,7 @@ char_list_size = len(char_list)
 word_length = 80
 
 medicine_list=[]
-companies=["square.csv","beximco.csv"]
+companies=["shortlist_new.csv"]
 for company in companies:
     with open(company) as csv_file:
         csv_reader = csv.reader(csv_file, delimiter=',')
@@ -110,11 +110,11 @@ learning_rate = 0.001 #learning rate
 model = bidirectional_lstm_model( word_length , char_list_size)
 model.summary()
 
-batch_size = 128 # minibatch size
+batch_size = 32 # minibatch size
 num_epochs = 30 # number of epochs
 
 #callbacks=[EarlyStopping(patience=4, monitor='val_loss'),
-callbacks=[ModelCheckpoint(filepath="checkpoints/medicine_name_predict.{epoch:02d}-{val_loss:.2f}.hdf5", monitor='val_loss', verbose=1, mode='auto', period=2),tensorboard_callback]
+callbacks=[ModelCheckpoint(filepath="shortlist_checkpoints/medicine_name_predict.{epoch:02d}-{val_loss:.2f}.hdf5", monitor='val_loss', verbose=1, mode='auto', period=2),tensorboard_callback]
 #fit the model
 history = model.fit(X, Y,
                  batch_size=batch_size,
