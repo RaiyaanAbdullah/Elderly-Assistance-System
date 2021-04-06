@@ -44,7 +44,7 @@ med_list_size = len(medicine_list)
 char_to_index = {x: i for i, x in enumerate(char_list)}
 
 
-input_name="nana"   
+input_name="Entacy"   
 
 input_name=input_name.lower()         
 input_X= np.zeros((1,word_length , char_list_size))
