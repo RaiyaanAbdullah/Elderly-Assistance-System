@@ -43,16 +43,16 @@ med_list_size = len(medicine_list)
 
 char_to_index = {x: i for i, x in enumerate(char_list)}
 
+
+input_name="Entacy"   
+
 input_name=input_name.lower()         
 input_X= np.zeros((1,word_length , char_list_size))
 
 for i, char in enumerate(input_name):
     input_X[0, i, char_to_index[char]] = 1
-
-model= load_model("checkpoints/medicine_name_predict.30-0.23.hdf5")
-
-def matching_medicine(med_name):
-    prediction = model.predict(med_name)    
-    pred_index=np.argmax(prediction)
-    return(medicine_list[pred_index])
         
+model= load_model("checkpoints/medicine_name_predict.30-0.23.hdf5")
+prediction = model.predict(input_X)        
+pred_index=np.argmax(prediction)
+print(medicine_list[pred_index])

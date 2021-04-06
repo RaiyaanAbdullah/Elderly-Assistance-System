@@ -16,6 +16,8 @@ from east_detector import text_boundary,imcrop  #this is for getting the text bo
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 import datetime as dt
+from medicine_strip_text_recognition.medicine_detect_db import matching_medicine
+
 pytesseract.pytesseract.tesseract_cmd = 'C:\\Program Files\\Tesseract-OCR\\tesseract.exe'
 # datetime object containing current date and time
 
@@ -112,7 +114,8 @@ def ocr(medicine_name,medicine_ID,medicine_time):
                 if (med):
                     # Fenat, Napa... are some test medicine
                     #print(med)
-                    if medicine_name in med:
+                    matched_medicine=matching_medicine(med)
+                    if medicine_name.lower == matched_medicine.lower:
                         print(medicine_name," found")
                         try:
                             con_medicine=MedicineHistory.objects.get(medicine_id=int(medicine_ID), date=dt.datetime.now().date())
