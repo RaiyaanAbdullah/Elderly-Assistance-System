@@ -53,6 +53,7 @@ for i, char in enumerate(input_name):
     input_X[0, i, char_to_index[char]] = 1
         
 model= load_model("shortlist_checkpoints\medicine_name_predict.30-0.06.hdf5")
-prediction = model.predict(input_X)        
+prediction = model.predict(input_X)
+print(np.max(prediction))
 pred_index=np.argmax(prediction)
 print(medicine_list[pred_index])

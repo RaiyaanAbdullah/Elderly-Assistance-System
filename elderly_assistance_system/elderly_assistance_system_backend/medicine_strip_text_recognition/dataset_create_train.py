@@ -25,7 +25,7 @@ import csv
 import numpy as np
 from sklearn.utils import shuffle
 import datetime
-
+import os
 
 #import Keras library
 from tensorflow.keras.models import Sequential, Model
@@ -85,7 +85,7 @@ for i, medicine in enumerate(input_list):
         
 X, Y = shuffle(X, Y)
 
-
+print("Training on ",len(X)," Medicine")
 
 
 
@@ -112,9 +112,12 @@ model.summary()
 
 batch_size = 32 # minibatch size
 num_epochs = 30 # number of epochs
-
+import shutil
 #callbacks=[EarlyStopping(patience=4, monitor='val_loss'),
-callbacks=[ModelCheckpoint(filepath="shortlist_checkpoints/medicine_name_predict.{epoch:02d}-{val_loss:.2f}.hdf5", monitor='val_loss', verbose=1, mode='auto', period=2),tensorboard_callback]
+delete_path="shortlist_checkpoints"
+file_path="shortlist_checkpoints/medicine_name_predict.{epoch:02d}-{val_loss:.2f}.hdf5"
+shutil.rmtree(delete_path)
+callbacks=[ModelCheckpoint(filepath=file_path, monitor='val_loss', verbose=1, mode='auto', period=2),tensorboard_callback]
 #fit the model
 history = model.fit(X, Y,
                  batch_size=batch_size,
@@ -124,5 +127,6 @@ history = model.fit(X, Y,
                  validation_split=0.1)
 
 #save the model
+os.remove("medicine_name_predict.h5")
 model.save("medicine_name_predict.h5")
 
