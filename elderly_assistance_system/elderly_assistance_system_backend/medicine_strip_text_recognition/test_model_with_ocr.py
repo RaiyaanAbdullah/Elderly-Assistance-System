@@ -15,7 +15,7 @@ from east_detector import text_boundary,imcrop
 
 from tensorflow.keras.models import load_model
 
-model= load_model("shortlist_checkpoints/medicine_name_predict.30-0.16.hdf5")
+#model= load_model("shortlist_checkpoints/medicine_name_predict.30-0.16.hdf5")
 print("Model Loaded")
 gpus = tf.config.experimental.list_physical_devices('GPU')
 if gpus:
@@ -50,11 +50,11 @@ med_list_size = len(medicine_list)
 
 char_to_index = {x: i for i, x in enumerate(char_list)}
 
-def matching_medicine(med_name):
+'''def matching_medicine(med_name):
     input_name=med_name.lower()
     prediction = model.predict(input_name)    
     pred_index=np.argmax(prediction)
-    return(medicine_list[pred_index])
+    return(medicine_list[pred_index])'''
         
 
 
@@ -64,8 +64,8 @@ pytesseract.pytesseract.tesseract_cmd = 'C:\\Program Files\\Tesseract-OCR\\tesse
 
 cap = cv2.VideoCapture(0)
 
-alpha=1.0
-beta=10
+alpha=0.9
+beta=0
 def unsharp_mask(image, kernel_size=(5, 5), sigma=1.0, amount=1.0, threshold=0):
     """Return a sharpened version of the image, using an unsharp mask."""
     blurred = cv2.GaussianBlur(image, kernel_size, sigma)
@@ -101,7 +101,14 @@ def adjust_gamma(image, gamma=1.0):
 	return cv2.LUT(image, table)
 
 def image_area(img):
-    =img.shape
+    h,w,_=img.shape
+    area=h*w
+    return area
+
+import re
+
+def charFilter(myString):
+    return re.sub('[^A-Z]+', '', myString, 0, re.I)
 
 while(True):
     # Capture frame-by-frame
@@ -114,7 +121,7 @@ while(True):
     arr = med.split('\n')[0:-1]
     med = '\n'.join(arr)
     gamma_adjusted=adjust_gamma(frame, gamma=0.5)
-    med=pytesseract.image_to_string(gamma_adjusted)
+    med=charFilter(pytesseract.image_to_string(gamma_adjusted))
     arr = med.split('\n')[0:-1]
     med = '\n'.join(arr)
         
@@ -124,32 +131,33 @@ while(True):
     med = '\n'.join(arr)
     for b in bound_box:
         crop=imcrop(adjusted, b)
-        sharpened_image = unsharp_mask(crop)
-        pr=process(crop)
-        gray = cv2.cvtColor(crop, cv2.COLOR_BGR2GRAY)
-        ret,pr_b = cv2.threshold(pr,127,255,cv2.THRESH_BINARY)
-        # do adaptive threshold on gray image
-        thresh = cv2.adaptiveThreshold(gray, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY, 21, 15)
-        
-        # make background of input white where thresh is white
-        result = crop.copy()
-        result[thresh==255] = (255,255,255)
-        med+=pytesseract.image_to_string(result)   #text for processing 2
-        arr = med.split('\n')[0:-1]
-        med = '\n'.join(arr)
-        #ret,thresh4 = cv2.threshold(pr,180,255,cv2.THRESH_TOZERO)
-        #ret,thresh3 = cv2.threshold(pr,180,255,cv2.THRESH_TRUNC)
-        #med+=pytesseract.image_to_string(thresh3) #text for processing 1
-        
-        #med+=pytesseract.image_to_string(thresh4) #text for processing 3
-        #med+=pytesseract.image_to_string(thresh3) #text for processing 4
-        text=med.split()
-        if text:
-            print(text)
+        if image_area(crop)>1000:
+            pr=process(crop)
+            gray = cv2.cvtColor(crop, cv2.COLOR_BGR2GRAY)
+            ret,pr_b = cv2.threshold(pr,127,255,cv2.THRESH_BINARY)
+            # do adaptive threshold on gray image
+            thresh = cv2.adaptiveThreshold(gray, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY, 21, 15)
             
-        
-    if "Napa" in med:
-        print("Napa")
+            # make background of input white where thresh is white
+            result = crop.copy()
+            result[thresh==255] = (255,255,255)
+            med+=pytesseract.image_to_string(result)   #text for processing 2
+            arr = med.split('\n')[0:-1]
+            med = '\n'.join(arr)
+            med+=pytesseract.image_to_string(pr_b)   #text for processing 2
+            arr = med.split('\n')[0:-1]
+            med = '\n'.join(arr)
+            med=charFilter(med)
+            #ret,thresh4 = cv2.threshold(pr,180,255,cv2.THRESH_TOZERO)
+            #ret,thresh3 = cv2.threshold(pr,180,255,cv2.THRESH_TRUNC)
+            #med+=pytesseract.image_to_string(thresh3) #text for processing 1
+            
+            #med+=pytesseract.image_to_string(thresh4) #text for processing 3
+            #med+=pytesseract.image_to_string(thresh3) #text for processing 4
+            text=med.split()
+            if text:
+                print(text)
+            
     # Display the resulting frame
     cv2.imshow('frame',adjusted)
     if cv2.waitKey(1) & 0xFF == ord('q'):
