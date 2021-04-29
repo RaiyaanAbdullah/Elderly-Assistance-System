@@ -111,12 +111,12 @@ model = bidirectional_lstm_model( word_length , char_list_size)
 model.summary()
 
 batch_size = 32 # minibatch size
-num_epochs = 30 # number of epochs
+num_epochs = 20 # number of epochs
 import shutil
 #callbacks=[EarlyStopping(patience=4, monitor='val_loss'),
 delete_path="shortlist_checkpoints"
 file_path="shortlist_checkpoints/medicine_name_predict.{epoch:02d}-{val_loss:.2f}.hdf5"
-shutil.rmtree(delete_path)
+#shutil.rmtree(delete_path)
 callbacks=[ModelCheckpoint(filepath=file_path, monitor='val_loss', verbose=1, mode='auto', period=2),tensorboard_callback]
 #fit the model
 history = model.fit(X, Y,
@@ -127,6 +127,25 @@ history = model.fit(X, Y,
                  validation_split=0.1)
 
 #save the model
-os.remove("medicine_name_predict.h5")
 model.save("medicine_name_predict.h5")
 
+import matplotlib.pyplot as plt
+import numpy as np
+
+N = num_epochs
+plt.style.use("ggplot")
+plt.figure()
+plt.plot(np.arange(0, N), history.history["loss"], label="train_loss")
+plt.plot(np.arange(0, N), history.history["val_loss"], label="val_loss")
+
+plt.title("Loss on Training Set")
+plt.xlabel("Epoch #")
+plt.ylabel("Loss")
+plt.legend(loc="upper right")
+plt.figure()
+plt.plot(np.arange(0, N), history.history["categorical_accuracy"], label="categorical_accuracy")
+plt.plot(np.arange(0, N), history.history["val_categorical_accuracy"], label="val_categorical_accuracy")
+plt.title("Accuracy on Training Set")
+plt.xlabel("Epoch #")
+plt.ylabel("Accuracy")
+plt.legend(loc="lower right")
