@@ -22,7 +22,7 @@ if gpus:
         print(e)
 
 from tensorflow.keras.models import load_model
-
+from word_generator_from_ocr_text import ngrams
 #define char and medicine list
 char_list = [' ', 'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','1','2','3','4','5','6','7','8','9','0','+','(',')',',','-','[',']','%','/','&','.','\'']
 
@@ -43,11 +43,27 @@ med_list_size = len(medicine_list)
 char_to_index = {x: i for i, x in enumerate(char_list)}
 
 
-model= load_model("checkpoints/medicine_name_predict.30-0.23.hdf5")
+model= load_model("medicine_name_predict.h5")
+medicine_counts=[]
 
-def matching_medicine(med_name):
-    input_name=med_name.lower()
-    prediction = model.predict(input_name)    
-    pred_index=np.argmax(prediction)
-    return(medicine_list[pred_index])
-        
+for med in medicine_list:
+    medicine_counts.append(0)
+ocr_text = "NanaNava"
+#print(medicine_list)
+for med in medicine_list:
+    n=len(med)
+    wordlist=ngrams(ocr_text.lower(),n)
+    for word in wordlist:
+        input_X= np.zeros((1,word_length , char_list_size))
+        #print(word)
+        for i, char in enumerate(word.lower()):
+            input_X[0, i, char_to_index[char]] = 1
+        prediction = model.predict(input_X)
+        #print(np.max(prediction))
+        pred=np.max(prediction)
+        pred_index=np.argmax(prediction)
+        predicted_med= medicine_list[pred_index]
+        med_index=medicine_list.index(predicted_med)
+        medicine_counts[med_index]=round(medicine_counts[med_index]+pred,2)
+
+print(medicine_counts)
