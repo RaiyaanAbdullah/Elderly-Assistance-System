@@ -44,7 +44,7 @@ med_list_size = len(medicine_list)
 char_to_index = {x: i for i, x in enumerate(char_list)}
 
 
-model= load_model("medicine_name_predict.h5")
+model= load_model("../medicine_name_predict.h5")
 medicine_counts_model=[]
 
 for med in medicine_list:

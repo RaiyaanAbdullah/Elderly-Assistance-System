@@ -18,6 +18,8 @@ pytesseract
 imutils
 pyserial
 zeep
+fuzzywuzzy
+ftfy
 
 download and install-
 https://digi.bib.uni-mannheim.de/tesseract/tesseract-ocr-w64-setup-v5.0.0-alpha.20201127.exe

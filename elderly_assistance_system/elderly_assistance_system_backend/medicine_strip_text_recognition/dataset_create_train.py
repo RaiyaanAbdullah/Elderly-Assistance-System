@@ -19,13 +19,17 @@ if gpus:
         # Memory growth must be set before GPUs have been initialized
         print(e)
 
+import os
+#WARNING: this chdir line is dangerous, need to rethink approach
+os.chdir('D:/Github Projects/Elderly-Assistance-System/elderly_assistance_system/elderly_assistance_system_backend/medicine_strip_text_recognition')
+
 from word_generate import train_data_generate 
 import pandas as pd
 import csv
 import numpy as np
 from sklearn.utils import shuffle
 import datetime
-import os
+
 
 #import Keras library
 from tensorflow.keras.models import Sequential, Model
@@ -51,7 +55,7 @@ char_list_size = len(char_list)
 word_length = 80
 
 medicine_list=[]
-companies=["shortlist_new.csv"]
+companies=["medicine_list.csv"]
 for company in companies:
     with open(company) as csv_file:
         csv_reader = csv.reader(csv_file, delimiter=',')

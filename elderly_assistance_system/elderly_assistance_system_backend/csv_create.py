@@ -11,7 +11,7 @@ for med in medicine_objects:
         med_list.append([med.name])
 print(med_list)
 # opening the csv file in 'w+' mode
-file = open('medicine_list.csv', 'w+', newline ='')
+file = open('medicine_strip_text_recognition/medicine_list.csv', 'w+', newline ='')
 
 # writing the data into the file
 with file:	
@@ -19,5 +19,5 @@ with file:
 	write.writerows(med_list)
 print("CSV file created..")
 path="C:/Users/Riad/Documents/GitHub/Elderly-Assistance-System/elderly_assistance_system/elderly_assistance_system_backend/"
-shutil.copy(path+"medicine_list.csv", path+"medicine_strip_text_recognition")
-print("CSV copied to "+path+ "medicine_strip_text_recognition/")
+
+
