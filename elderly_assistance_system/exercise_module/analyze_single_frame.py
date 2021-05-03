@@ -21,7 +21,8 @@ def get_keypoints(json_file):
     for i in range(0,25):
         
         #print(joint_names[i],"- X:",keypoints[i*3],"- Y:",keypoints[i*3+1],"- P:",keypoints[i*3+2])
-        keypoints_dict[joint_names[i]]={"X":keypoints[i*3]/video_x,"Y":keypoints[i*3+1]/video_y,"P":keypoints[i*3+2]}
+        keypoints_dict[joint_names[i]]={"X":keypoints[i*3],"Y":keypoints[i*3+1]}
+        #keypoints_dict[joint_names[i]]={"X":keypoints[i*3],"Y":keypoints[i*3+1],"P":keypoints[i*3+2]}
     return keypoints_dict
 
 

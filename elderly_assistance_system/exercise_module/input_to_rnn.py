@@ -38,8 +38,11 @@ def angle(line_a, line_b):
     
     return theta_deg
 
-print (angle([-2.0,0.0,0.0,3.4641],[4.0,0.0,4.0,2.0]))
+#print (angle([-2.0,0.0,0.0,3.4641],[4.0,0.0,4.0,2.0]))
 i=0
+video_frames=[]
+per_frame=13
+
 for file in os.listdir(json_files_location):
     #getting keypoints
     all_keypoints= get_keypoints(json_files_location+file)
@@ -55,12 +58,14 @@ for file in os.listdir(json_files_location):
     l_forearm_line = [keypoints['l_elbow']['X'],keypoints['l_elbow']['Y'],keypoints['l_hand']['X'],keypoints['l_hand']['Y']]
 
     #getting angles of parts with respect to body  
-    neck_angle= angle(neck_line, body_line)
-    r_arm_line = angle(r_arm_line, body_line)
-    r_forearm_line = angle(r_forearm_line, body_line)
-    l_arm_line = angle(l_arm_line, body_line)
-    l_forearm_line = angle(l_forearm_line, body_line)
-    
-    
-    print(i)
+    keypoints['neck_angle']= angle(neck_line, body_line)
+    keypoints['r_arm_angle'] = angle(r_arm_line, body_line)
+    keypoints['r_forearm_angle'] = angle(r_forearm_line, body_line)
+    keypoints['l_arm_angle'] = angle(l_arm_line, body_line)
+    keypoints['l_forearm_angle'] = angle(l_forearm_line, body_line)
+
+
+    if i % per_frame == 0:
+        video_frames.append(keypoints)        
+
     i=i+1
