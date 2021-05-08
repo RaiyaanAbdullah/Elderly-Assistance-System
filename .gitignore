@@ -1,1 +1,3 @@
-elderly_assistance_system/elderly_assistance_system_frontend/node_modules/
+*.pb
+*.hdf5
+node_modules/
